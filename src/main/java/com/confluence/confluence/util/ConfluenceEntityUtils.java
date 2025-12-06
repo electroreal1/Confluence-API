@@ -1,7 +1,11 @@
 package com.confluence.confluence.util;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
@@ -30,6 +34,18 @@ public class ConfluenceEntityUtils {
         }
         return nearest;
 
+    }
+
+    public static BlockPos getLookedAtBlock(LivingEntity user, double distance) {
+        Vec3 eyePos = user.getEyePosition();
+        Vec3 lookVec = user.getLookAngle();
+        Vec3 endPos = eyePos.add(lookVec.scale(distance));
+
+        BlockHitResult result = user.level().clip(new ClipContext(eyePos, endPos, ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, user));
+
+        if (result.getType() == HitResult.Type.BLOCK) {return result.getBlockPos();}
+
+        return null;
     }
 
 
