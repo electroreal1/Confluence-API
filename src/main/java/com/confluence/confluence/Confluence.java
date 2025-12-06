@@ -1,6 +1,7 @@
 package com.confluence.confluence;
 
-import com.confluence.confluence.modules.kolras.items.KolrasToolTiers;
+import com.confluence.confluence.modules.kolras.item.KolrasItemRegistry;
+import com.confluence.confluence.modules.kolras.item.KolrasToolTier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -28,7 +29,8 @@ public class Confluence
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-        KolrasToolTiers.init();
+        KolrasToolTier.init();
+        KolrasItemRegistry.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
 //        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
